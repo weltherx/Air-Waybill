@@ -11,6 +11,11 @@
     <div id="result">Rezultatul va apărea aici după scanare.</div>
     <button onclick="startScan()">Start Scan</button>
 
+    <!-- Adding the image from the assets folder -->
+    <div>
+        <img src="assets/url_text.png" alt="URL Text" width="300" height="200">
+    </div>
+
     <script>
       function startScan() {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
