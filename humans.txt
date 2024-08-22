@@ -1,3 +1,4 @@
 Alex - Product Owner
 Max - Developer
 Sebi - Consultant
+Ale - Tester
