@@ -3,6 +3,8 @@
 
 <head>
   <title>QR Code Scanner</title>
+  <meta charset="UTF-8">
+  <meta name="viewpoint" content="width=device-width" , initial-scale="1.0">
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1/dist/jsQR.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,14 +15,6 @@
   <canvas id="canvas" width="300" height="200"></canvas>
   <div id="result">The scan result will apear here.</div>
   <button onclick="startScan()">Start Scan</button>
-
-  <!-- Adding the image from the assets folder -->
-  <div class = "mobile_QR">
-    <p>You can also use this scanner on your mobile. Scan the following QR code.</p>
-    <div>
-      <img src="assets/url_test.png" alt="URL Text" width="300">
-    </div>
-  </div>
 
   <script>
     function startScan() {
@@ -60,6 +54,35 @@
       }
     }
   </script>
+  <div class="reader">
+    <div class="wrapper">
+      <form action="#">
+        <input type="file" hidden>
+        <img src="#" alt="qr-code">
+        <div class="content">
+          <i class="fas fa-cloud-upload"></i>
+          <p>Upload QR Code to Read</p>
+        </div>
+      </form>
+      <div class="details">
+        <textarea spellcheck="false" disabled></textarea>
+        <div class="buttons">
+          <button class="close">Close</button>
+          <button class="copy">Copy Text</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adding the image from the assets folder -->
+  <div class="mobile_QR">
+    <p>You can also use this scanner on your mobile. Scan the following QR code.</p>
+    <div>
+      <img src="assets/url_test.png" alt="URL Text" width="300">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
