@@ -1,49 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicule Config</title>
+    <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
     <h1>Configurare Autovehicul</h1>
     <form id="vehicleForm">
         <label for="vehicleNumber">Număr autovehicul:</label>
         <input type="text" id="vehicleNumber" name="vehicleNumber"><br><br>
-        
+
         <label for="fleet">Flotă:</label>
         <input type="text" id="fleet" name="fleet"><br><br>
-        
+
         <button type="submit">Salvează</button>
     </form>
-
-    <script>
-        const form = document.getElementById('vehicleForm');
-        const vehicleNumberInput = document.getElementById('vehicleNumber');
-        const fleetInput = document.getElementById('fleet');
-
-        window.onload = function() {
-            // Verify and load data from localStorage
-            const savedVehicleNumber = localStorage.getItem('vehicleNumber');
-            const savedFleet = localStorage.getItem('fleet');
-            
-            if(savedVehicleNumber) {
-                vehicleNumberInput.value = savedVehicleNumber;
-            }
-            if(savedFleet) {
-                fleetInput.value = savedFleet;
-            } 
-        };
-
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Store the data in local storage
-            localStorage.setItem('vehicleNumber', vehicleNumberInput.value);
-            localStorage.setItem('fleet', fleetInput.value);
-
-            alert('Informațiile au fost salvate cu succes!');
-        });
-    </script>
+    
+    <script src="../script.js"></script>
 </body>
+
 </html>

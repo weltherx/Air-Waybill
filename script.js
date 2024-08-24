@@ -1,38 +1,63 @@
-const wrapper = document.querySelector(".wrapper"),
-form = document.querySelector("form"),
-fileInp = form.querySelector("input"),
-infoText = form.querySelector("p"),
-closeBtn = document.querySelector(".close"),
-copyBtn = document.querySelector(".copy");
+function startScan() {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(function (stream) {
+            const video = document.getElementById('camera');
+            video.srcObject = stream;
+            video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+            video.play();
+            requestAnimationFrame(tick);
+        });
 
-function fetchRequest(file, formData) {
-    infoText.innerText = "Scanning QR Code...";
-    fetch("http://api.qrserver.com/v1/read-qr-code/", {
-        method: 'POST', body: formData
-    }).then(res => res.json()).then(result => {
-        result = result[0].symbol[0].data;
-        infoText.innerText = result ? "Upload QR Code to Scan" : "Couldn't scan QR Code";
-        if(!result) return;
-        document.querySelector("textarea").innerText = result;
-        form.querySelector("img").src = URL.createObjectURL(file);
-        wrapper.classList.add("active");
-    }).catch(() => {
-        infoText.innerText = "Couldn't scan QR Code";
-    });
+    const canvasElement = document.getElementById("canvas");
+    const canvas = canvasElement.getContext("2d");
+
+    function tick() {
+        const video = document.getElementById('camera');
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvasElement.hidden = false;
+            canvasElement.height = video.videoHeight;
+            canvasElement.width = video.videoWidth;
+            canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+            var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+            var code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: "dontInvert",
+            });
+            if (code) {
+                document.getElementById("result").textContent = "QR Code Data: " + code.data;
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            } else {
+                requestAnimationFrame(tick);
+            }
+        } else {
+            requestAnimationFrame(tick);
+        }
+    }
 }
 
-fileInp.addEventListener("change", async e => {
-    let file = e.target.files[0];
-    if(!file) return;
-    let formData = new FormData();
-    formData.append('file', file);
-    fetchRequest(file, formData);
-});
+const form = document.getElementById('vehicleForm');
+const vehicleNumberInput = document.getElementById('vehicleNumber');
+const fleetInput = document.getElementById('fleet');
 
-copyBtn.addEventListener("click", () => {
-    let text = document.querySelector("textarea").textContent;
-    navigator.clipboard.writeText(text);
-});
+window.onload = function () {
+    // Verify and load data from localStorage
+    const savedVehicleNumber = localStorage.getItem('vehicleNumber');
+    const savedFleet = localStorage.getItem('fleet');
 
-form.addEventListener("click", () => fileInp.click());
-closeBtn.addEventListener("click", () => wrapper.classList.remove("active"));
+    if (savedVehicleNumber) {
+        vehicleNumberInput.value = savedVehicleNumber;
+    }
+    if (savedFleet) {
+        fleetInput.value = savedFleet;
+    }
+};
+
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    // Store the data in local storage
+    localStorage.setItem('vehicleNumber', vehicleNumberInput.value);
+    localStorage.setItem('fleet', fleetInput.value);
+
+    alert('Informațiile au fost salvate cu succes!');
+});
