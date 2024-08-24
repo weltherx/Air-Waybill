@@ -4,52 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de control</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #e9ecef, #ffffff);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .button-container {
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            border-radius: 8px;
-            background: white;
-            width: 80%;
-            max-width: 400px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 80%;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        @media (max-width: 768px) {
-            button {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
     <div class="button-container">
-        <button onclick="location.href='configure.html'">Configurează</button>
-        <button onclick="location.href='scan.html'">Scanează</button>
-        <button onclick="location.href='reports.html'">Rapoarte</button>
+        <button onclick="location.href='config/index.html'">Configurează</button>
+        <button onclick="location.href='scan/index.html'">Scanează</button>
+        <button onclick="location.href='reports/index.html'">Rapoarte</button>
     </div>
 </body>
 </html>
