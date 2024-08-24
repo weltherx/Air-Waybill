@@ -1,88 +1,55 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>QR Code Scanner</title>
-  <meta charset="UTF-8">
-  <meta name="viewpoint" content="width=device-width" , initial-scale="1.0">
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1/dist/jsQR.js"></script>
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-  <h1>Scan a QR Code</h1>
-  <video id="camera" width="300" height="200" style="display:none;"></video>
-  <canvas id="canvas" width="300" height="200"></canvas>
-  <div id="result">The scan result will apear here.</div>
-  <button onclick="startScan()">Start Scan</button>
-
-  <script>
-    function startScan() {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(function (stream) {
-          const video = document.getElementById('camera');
-          video.srcObject = stream;
-          video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-          video.play();
-          requestAnimationFrame(tick);
-        });
-
-      const canvasElement = document.getElementById("canvas");
-      const canvas = canvasElement.getContext("2d");
-
-      function tick() {
-        const video = document.getElementById('camera');
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          canvasElement.hidden = false;
-          canvasElement.height = video.videoHeight;
-          canvasElement.width = video.videoWidth;
-          canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-          var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-          var code = jsQR(imageData.data, imageData.width, imageData.height, {
-            inversionAttempts: "dontInvert",
-          });
-          if (code) {
-            document.getElementById("result").textContent = "QR Code Data: " + code.data;
-            video.srcObject.getTracks().forEach(track => track.stop());
-            video.srcObject = null;
-          } else {
-            requestAnimationFrame(tick);
-          }
-        } else {
-          requestAnimationFrame(tick);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e9ecef, #ffffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-      }
-    }
-  </script>
-  <div class="reader">
-    <div class="wrapper">
-      <form action="#">
-        <input type="file" hidden>
-        <img src="#" alt="qr-code">
-        <div class="content">
-          <i class="fas fa-cloud-upload"></i>
-          <p>Upload QR Code to Read</p>
-        </div>
-      </form>
-      <div class="details">
-        <textarea spellcheck="false" disabled></textarea>
-        <div class="buttons">
-          <button class="close">Close</button>
-          <button class="copy">Copy Text</button>
-        </div>
-      </div>
+        .button-container {
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            width: 80%;
+            max-width: 400px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 80%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 768px) {
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="location.href='configure.html'">Configurează</button>
+        <button onclick="location.href='scan.html'">Scanează</button>
+        <button onclick="location.href='reports.html'">Rapoarte</button>
     </div>
-  </div>
-
-  <!-- Adding the image from the assets folder -->
-  <div class="mobile_QR">
-    <p>You can also use this scanner on your mobile. Scan the following QR code.</p>
-    <div>
-      <img src="assets/url_test.png" alt="URL Text" width="300">
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
-
 </html>
